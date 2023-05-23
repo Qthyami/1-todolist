@@ -1,30 +1,26 @@
 import React from 'react';
 import './App.css';
-import TodoList, {TaskType} from "./todoList";
 
-function App():JSX.Element {
-    const title_1:string ="what to learn"
-    const title_2:string ="what to buy"
-    const  tasks_1 :Array<TaskType> = [
-        {id:1, title:"HTML", isDone: true},
-        {id:2, title:"CSS", isDone: true},
-        {id:3, title:"JS", isDone: true}
-
-    ]
-    const  tasks_2 :Array<TaskType> = [
-        {id:1, title:"Ris", isDone: true},
-        {id:2, title:"Grechka", isDone: true},
-        {id:3, title:"Pivas", isDone: true}
-
-    ]
-
+function App() {
     return (
         <div className="App">
-            <TodoList title={title_1} tasks={tasks_1}/>
-            <TodoList title={title_2} tasks={tasks_2}/>
-
-
-
+            <div>
+                <h3>What to learn</h3>
+                <div>
+                    <input/>
+                    <button>+</button>
+                </div>
+                <ul>
+                    <li><input type="checkbox" checked={true}/> <span>HTML&CSS</span></li>
+                    <li><input type="checkbox" checked={true}/> <span>JS</span></li>
+                    <li><input type="checkbox" checked={false}/> <span>React</span></li>
+                </ul>
+                <div>
+                    <button>All</button>
+                    <button>Active</button>
+                    <button>Completed</button>
+                </div>
+            </div>
         </div>
     );
 }
