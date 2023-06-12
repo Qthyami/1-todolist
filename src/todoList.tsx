@@ -1,42 +1,99 @@
-import React, {FC} from 'react';
+import React, {ChangeEvent, FC, useState, KeyboardEvent} from 'react';
+import {FilterValuesType} from "./App";
 
 type  TodoListPropsType = {
     title: string;
-    tasks: Array<TaskType>
+    tasks: Array<TaskType>;
+    removeTask: (id: string)=> void;
+    changeFilter:(value:FilterValuesType)=>void;
+    addTask:(title:string)=>void;
+    changeTaskStatus: (taskId:string, isDone:boolean) => void;
+    filter: FilterValuesType
 }
 
 export type TaskType={
-    id:number;
+    id:string;
     title: string;
     isDone: boolean;
 }
-const TodoList: React.FC<TodoListPropsType> = (props) => {
+const TodoList = (props:TodoListPropsType) => {
+const [newTaskTitle, setNewTaskTitle]=useState("")
+    const [error, setError]= useState<string | null>( null)
+
+const onChangeHandler =(e: ChangeEvent<HTMLInputElement>)=>{
+setNewTaskTitle(e.currentTarget.value)
+}
+const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>)=>{
+    setError(null) // любое нажатие клавиши зануляет стейт ошибки, все юзер исправился и начал набирать
+    if ( e.charCode===13){
+        props.addTask(newTaskTitle);
+        setNewTaskTitle("");
+    }
+}
+const onAllClickHandler=()=>{props.changeFilter("all")}
+const onActiveClickHandler=()=>{props.changeFilter("active")}
+const onCompletedClickHandler=()=>{props.changeFilter("completed")}
+
+const addTask = ()=>{
+    if (newTaskTitle.trim()!==""){
+        props.addTask(newTaskTitle.trim());
+        setNewTaskTitle("")
+    }
+   else {
+       setError("Title is required")
+    }
+}
+
+
     return (
         <div className="todoList">
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input value ={newTaskTitle}
+                       onChange={onChangeHandler}
+                        onKeyPress={onKeyPressHandler}
+                       className={error ? "error" : ""}
+
+                />
+                <button onClick={addTask}>+</button>
+                {error &&<div className={"error-message"}>ERROR</div>}
+
             </div>
             <ul>
-                <li>
-                    <input type="checkbox" checked={props.tasks[0].isDone}/>
-                    <span>{props.tasks[0].title }</span>
-                </li>
-                <li>
-                    <input type="checkbox" checked={props.tasks[1].isDone}/>
-                    <span>{props.tasks[1].title}</span>
-                </li>
-                <li> <input type="checkbox" checked={props.tasks[2].isDone}/>
-                    <span>{props.tasks[2].title }</span></li>
+                {props.tasks.map((t) => {
+
+                        const onClickHandler = () => {
+                            props.removeTask(t.id)
+                        }
+                        const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+                            props.changeTaskStatus (t.id , e.currentTarget.checked);
+
+                        }
+
+                        return (
+                            <li key={t.id} className={t.isDone ? "is-done" : ""}>
+                                <input type="checkbox"
+                                       checked={t.isDone}
+                                       onChange={onChangeHandler}
+
+                                />
+                                <span>{t.title}</span>
+                                <button onClick={onClickHandler}>X</button>
+                            </li>
+                        )
+
+                    }
+                )
+                }
+
+
             </ul>
             <div>
-                <button>All</button>
-                <button>Active</button>
-                <button>Completed</button>
+                <button className={props.filter === "all" ? 'active-filter': ''} onClick={onAllClickHandler}>All</button>
+                <button className={props.filter === "active" ? 'active-filter': ''} onClick={onActiveClickHandler}>Active</button>
+                <button className={props.filter === "completed" ? 'active-filter': ''} onClick={onCompletedClickHandler}>Completed</button>
             </div>
         </div>
     );
 };
-
 export default TodoList;

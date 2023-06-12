@@ -1,8 +1,56 @@
 .App {
   padding: 30px;
   display: flex;
+  justify-content: center;
 }
 
-.App > div {
-  margin-right: 50px;
+.todoList {
+  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.todoList h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.todoList ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.todoList li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.todoList li input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.todoList li span {
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.todoList li span.completed {
+  text-decoration: line-through;
+  color: #999;
+}
+.error{
+  border: red 1px solid
+}
+.error-message{
+  color:red;
+}
+
+.active-filter {
+  background-color: aquamarine;
+}
+.is-done {
+  opacity: 0.5 ;
 }
