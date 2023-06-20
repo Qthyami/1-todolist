@@ -2,15 +2,21 @@ import React, {ChangeEvent, FC, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from "./App";
 
 type  TodoListPropsType = {
+    id:string;
     title: string;
     tasks: Array<TaskType>;
     removeTask: (id: string)=> void;
-    changeFilter:(value:FilterValuesType)=>void;
+    changeFilter:(value:FilterValuesType, todolistId: string)=>void;
     addTask:(title:string)=>void;
     changeTaskStatus: (taskId:string, isDone:boolean) => void;
     filter: FilterValuesType
 }
+export type TodolistsType = {
+    id: string;
+    title: string;
+    filter: FilterValuesType;
 
+};
 export type TaskType={
     id:string;
     title: string;
@@ -30,9 +36,9 @@ const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>)=>{
         setNewTaskTitle("");
     }
 }
-const onAllClickHandler=()=>{props.changeFilter("all")}
-const onActiveClickHandler=()=>{props.changeFilter("active")}
-const onCompletedClickHandler=()=>{props.changeFilter("completed")}
+const onAllClickHandler=()=>{props.changeFilter("all", props.id)}
+const onActiveClickHandler=()=>{props.changeFilter("active", props.id)}
+const onCompletedClickHandler=()=>{props.changeFilter("completed", props.id)}
 
 const addTask = ()=>{
     if (newTaskTitle.trim()!==""){
