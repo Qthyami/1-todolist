@@ -2,14 +2,14 @@ import React, {ChangeEvent, FC, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from "./App";
 
 type  TodoListPropsType = {
-    todolistId:string
+    todolistId:string;
     id:string;
     title: string;
     tasks: Array<TaskType>;
-    removeTask: (id: string,todolistId:string)=> void;
+    removeTask: (id: string, todolistId:string)=> void;
     changeFilter:(value:FilterValuesType, todolistId: string)=>void;
-    addTask:(todolistId:string, title:string )=>void;
-    changeTaskStatus: (todolistId:string , taskId:string, isDone:boolean) => void;
+    addTask:(todolistId:string, title: string)=>void;
+    changeTaskStatus: (todolistId: string,taskId:string, isDone: boolean) => void;
     filter: FilterValuesType
 }
 export type TodolistsType = {
@@ -27,12 +27,12 @@ export type TasksType={
     [id:string]:TaskType[]
 }
 const TodoList = (props:TodoListPropsType) => {
-const [newTaskTitle, setNewTaskTitle]=useState("")
+    const [newTaskTitle, setNewTaskTitle]=useState("")
     const [error, setError]= useState<string | null>( null)
 
-const onChangeHandler =(e: ChangeEvent<HTMLInputElement>)=>{
-setNewTaskTitle(e.currentTarget.value)
-}
+    const onChangeHandler =(e: ChangeEvent<HTMLInputElement>)=>{
+        setNewTaskTitle(e.currentTarget.value)
+    }
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
         setError(null);
         if (e.charCode === 13) {
@@ -44,19 +44,19 @@ setNewTaskTitle(e.currentTarget.value)
             }
         }
     }
-const onAllClickHandler=()=>{props.changeFilter("all", props.id)}
-const onActiveClickHandler=()=>{props.changeFilter("active", props.id)}
-const onCompletedClickHandler=()=>{props.changeFilter("completed", props.id)}
+    const onAllClickHandler=()=>{props.changeFilter("all", props.id)}
+    const onActiveClickHandler=()=>{props.changeFilter("active", props.id)}
+    const onCompletedClickHandler=()=>{props.changeFilter("completed", props.id)}
 
-const addTask = ()=>{
-    if (newTaskTitle.trim()!==""){
-        props.addTask(props.todolistId , newTaskTitle.trim());
-        setNewTaskTitle("")
+    const addTask = ()=>{
+        if (newTaskTitle.trim()!==""){
+            props.addTask(props.todolistId , newTaskTitle.trim());
+            setNewTaskTitle("")
+        }
+        else {
+            setError("Title is required")
+        }
     }
-   else {
-       setError("Title is required")
-    }
-}
 
 
     return (
@@ -65,7 +65,7 @@ const addTask = ()=>{
             <div>
                 <input value ={newTaskTitle}
                        onChange={onChangeHandler}
-                        onKeyPress={onKeyPressHandler}
+                       onKeyPress={onKeyPressHandler}
                        className={error ? "error" : ""}
 
                 />
