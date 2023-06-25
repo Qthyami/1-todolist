@@ -2,13 +2,14 @@ import React, {ChangeEvent, FC, useState, KeyboardEvent} from 'react';
 import {FilterValuesType} from "./App";
 
 type  TodoListPropsType = {
+    todolistId:string
     id:string;
     title: string;
     tasks: Array<TaskType>;
-    removeTask: (id: string)=> void;
+    removeTask: (id: string,todolistId:string)=> void;
     changeFilter:(value:FilterValuesType, todolistId: string)=>void;
-    addTask:(title:string)=>void;
-    changeTaskStatus: (taskId:string, isDone:boolean) => void;
+    addTask:(todolistId:string, title:string )=>void;
+    changeTaskStatus: (todolistId:string , taskId:string, isDone:boolean) => void;
     filter: FilterValuesType
 }
 export type TodolistsType = {
@@ -22,6 +23,9 @@ export type TaskType={
     title: string;
     isDone: boolean;
 }
+export type TasksType={
+    [id:string]:TaskType[]
+}
 const TodoList = (props:TodoListPropsType) => {
 const [newTaskTitle, setNewTaskTitle]=useState("")
     const [error, setError]= useState<string | null>( null)
@@ -29,20 +33,24 @@ const [newTaskTitle, setNewTaskTitle]=useState("")
 const onChangeHandler =(e: ChangeEvent<HTMLInputElement>)=>{
 setNewTaskTitle(e.currentTarget.value)
 }
-const onKeyPressHandler = (e:KeyboardEvent<HTMLInputElement>)=>{
-    setError(null) // любое нажатие клавиши зануляет стейт ошибки, все юзер исправился и начал набирать
-    if ( e.charCode===13){
-        props.addTask(newTaskTitle);
-        setNewTaskTitle("");
+    const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+        setError(null);
+        if (e.charCode === 13) {
+            if (newTaskTitle.trim() !== "") {
+                props.addTask(props.todolistId , newTaskTitle.trim());
+                setNewTaskTitle("");
+            } else {
+                setError("Title is required");
+            }
+        }
     }
-}
 const onAllClickHandler=()=>{props.changeFilter("all", props.id)}
 const onActiveClickHandler=()=>{props.changeFilter("active", props.id)}
 const onCompletedClickHandler=()=>{props.changeFilter("completed", props.id)}
 
 const addTask = ()=>{
     if (newTaskTitle.trim()!==""){
-        props.addTask(newTaskTitle.trim());
+        props.addTask(props.todolistId , newTaskTitle.trim());
         setNewTaskTitle("")
     }
    else {
@@ -69,10 +77,10 @@ const addTask = ()=>{
                 {props.tasks.map((t) => {
 
                         const onClickHandler = () => {
-                            props.removeTask(t.id)
+                            props.removeTask(t.id, props.todolistId)
                         }
                         const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-                            props.changeTaskStatus (t.id , e.currentTarget.checked);
+                            props.changeTaskStatus (props.todolistId , t.id , e.currentTarget.checked);
 
                         }
 
