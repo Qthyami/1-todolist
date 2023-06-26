@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { v1 } from 'uuid';
 import './App.css';
-import TodoList, {TasksType, TaskType, TodolistsType} from "./todoList";
+import TodoList, {TasksStateType, TaskType, TodolistsType} from "./todoList";
+import {AddItemForm} from "./addItemForm";
 
 export type FilterValuesType = "all" | "completed" | "active";
+
+
 
 function App() {
 
@@ -16,15 +19,15 @@ function App() {
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ])
 
-    let [tasks, setTasks] = useState<TasksType>({
+    let [tasks, setTasks] = useState<TasksStateType>({
         [todolistID1]: [
-            {id: v1(), title: 'HTML&CSS', isDone: true},
-            {id: v1(), title: 'JS', isDone: true},
+            {id: v1(), title: 'HTML&CSS', isDone: false},
+            {id: v1(), title: 'JS', isDone: false},
             {id: v1(), title: 'ReactJS', isDone: false},
 
         ],
         [todolistID2]: [
-            {id: v1(), title: 'Rest API', isDone: true},
+            {id: v1(), title: 'Rest API', isDone: false},
             {id: v1(), title: 'GraphQL', isDone: false},
         ]
     })
@@ -45,9 +48,11 @@ function App() {
 
 
     const addTask = (todolistId:string, title: string) => {
+
         let newTask = { id: v1(), title: title, isDone: false };
 
         setTasks( {...tasks, [todolistId]:[newTask, ...tasks[todolistId]] });
+        console.log(tasks)
     };
 
     function changeStatus(todolistId: string,taskId:string, isDone: boolean) {
@@ -56,10 +61,22 @@ function App() {
             {...tasks, [todolistId]:updatedTasks }
         );
     }
-
+function addTodolist(title:string) {
+        let newTodolist: TodolistsType={
+            id: v1(),
+            title: title,
+            filter:"all"
+        }
+setTodolists([newTodolist, ...todolists]);
+        setTasks({...tasks,
+        [newTodolist.id]: []
+        })
+}
 
     return (
         <div className="App">
+            <AddItemForm addItem={addTodolist} />
+            
             {todolists.map((tl) => {
                 let tasksForTodolist = tasks[tl.id];
                 if (tl.filter === "completed") {
