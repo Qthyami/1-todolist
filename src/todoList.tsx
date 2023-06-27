@@ -13,6 +13,7 @@ type  TodoListPropsType = {
     addTask:(todolistId:string, title: string)=>void;
     changeTaskStatus: (todolistId: string,taskId:string, isDone: boolean) => void;
     changeTaskTitle:(id:string, newTitle:string, todolistId: string )=> void;
+    changeTodolistTitle:(id:string, newTitle:string)=>void;
     filter: FilterValuesType
 }
 export type TodolistsType = {
@@ -43,13 +44,15 @@ const TodoList = (props:TodoListPropsType) => {
     const onActiveClickHandler=()=>{props.changeFilter("active", props.id)}
     const onCompletedClickHandler=()=>{props.changeFilter("completed", props.id)}
 
-
+const changeTodolistTitle=(newTitle:string)=>{
+        props.changeTodolistTitle(props.id, newTitle)
+}
 
 
 
     return (
         <div className="todoList">
-            <h3>{props.title}</h3>
+            <h3> <EditableSpan title={props.title} onChange={changeTodolistTitle}/></h3>
             <AddItemForm addItem={addTask}
             />
             <ul>

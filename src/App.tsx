@@ -67,6 +67,7 @@ function App() {
             {...tasks, [todolistId]:updatedTasks }
         );
     }
+
 function addTodolist(title:string) {
         let newTodolist: TodolistsType={
             id: v1(),
@@ -78,7 +79,9 @@ setTodolists([newTodolist, ...todolists]);
         [newTodolist.id]: []
         })
 }
-
+    const changeTodolistTitle=(id:string, newTitle:string)=> {
+        setTodolists(todolists.map(tl=>tl.id===id? {...tl, title:newTitle} : tl))
+    }
     return (
         <div className="App">
             <AddItemForm addItem={addTodolist} />
@@ -104,6 +107,7 @@ setTodolists([newTodolist, ...todolists]);
                         addTask={addTask}
                         changeTaskStatus={changeStatus}
                         changeTaskTitle={changeTaskTitle}
+                        changeTodolistTitle={changeTodolistTitle}
                         filter={tl.filter}
                     />
                 );
