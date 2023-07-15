@@ -82,6 +82,7 @@ setTodolists([newTodolist, ...todolists]);
         [newTodolist.id]: []
         })
 }
+
     const changeTodolistTitle=(id:string, newTitle:string)=> {
         setTodolists(todolists.map(tl=>tl.id===id? {...tl, title:newTitle} : tl))
     }
