@@ -49,6 +49,7 @@ const TodoList = (props:TodoListPropsType) => {
 
 const changeTodolistTitle=(newTitle:string)=>{
         props.changeTodolistTitle(props.id, newTitle)
+    console.log(newTitle)
 }
 
 

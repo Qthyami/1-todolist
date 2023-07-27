@@ -1,16 +1,28 @@
 import {TasksStateType, TodolistsType} from "../todoList";
 import {v1} from "uuid";
 import {FilterValuesType} from "../App";
-import {addTodolistAcType, removeTodolistAcType} from "./todolists-reducer"
+import {addTodolistAcType, removeTodolistAcType, todolistID1, todolistID2} from "./todolists-reducer"
 
 
 type ActionType = removeTaskActionType | addTaskActionType| changeTaskStatusActionType | changeTaskTitleActionType |
 addTodolistAcType | removeTodolistAcType
 
+const initialState={
+    [todolistID1]: [
+        {id: v1(), title: 'HTML&CSS', isDone: false},
+        {id: v1(), title: 'JS', isDone: false},
+        {id: v1(), title: 'ReactJS', isDone: false},
+
+    ],
+    [todolistID2]: [
+        {id: v1(), title: 'Rest API', isDone: false},
+        {id: v1(), title: 'GraphQL', isDone: false},
+    ]
+}
 
 
 
-export const tasksReducer=(state:TasksStateType ,action:ActionType): TasksStateType=>{
+export const tasksReducer=(state:TasksStateType=initialState ,action:ActionType): TasksStateType=>{
     switch(action.type){
         case "REMOVE-TASK":{
             return {...state,
@@ -41,11 +53,11 @@ return {...state, [action.payload.todolistId]:[]}
              const stateCopy={...state}
             delete  stateCopy[action.payload.id]
             return stateCopy
-            //return state.filter(el=>el.id!===action.payload.id)
+            // return state.filter(el=>el.id!===action.payload.id)
         }
 
         default :
-            throw new Error("I dont understand this action type")
+           return state
     }
 }
 type removeTaskActionType= ReturnType<typeof removeTaskAC >
