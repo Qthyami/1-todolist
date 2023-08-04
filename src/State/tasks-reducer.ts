@@ -8,16 +8,16 @@ type ActionType = removeTaskActionType | addTaskActionType| changeTaskStatusActi
 addTodolistAcType | removeTodolistAcType
 
 const initialState={
-    [todolistID1]: [
-        {id: v1(), title: 'HTML&CSS', isDone: false},
-        {id: v1(), title: 'JS', isDone: false},
-        {id: v1(), title: 'ReactJS', isDone: false},
-
-    ],
-    [todolistID2]: [
-        {id: v1(), title: 'Rest API', isDone: false},
-        {id: v1(), title: 'GraphQL', isDone: false},
-    ]
+    // [todolistID1]: [
+    //     {id: v1(), title: 'HTML&CSS', isDone: false},
+    //     {id: v1(), title: 'JS', isDone: false},
+    //     {id: v1(), title: 'ReactJS', isDone: false},
+    //
+    // ],
+    // [todolistID2]: [
+    //     {id: v1(), title: 'Rest API', isDone: false},
+    //     {id: v1(), title: 'GraphQL', isDone: false},
+    // ]
 }
 
 
