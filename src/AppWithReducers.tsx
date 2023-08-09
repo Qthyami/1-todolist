@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 import { v1 } from 'uuid';
 import './App.css';
 import TodoList, {TasksStateType, TodolistsType} from "./todoList";
-import {AddItemForm} from "./addItemForm";
+import {AddItemForm} from "./AddItemForm";
 import {AppBar, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 import InputWithSaveButton from "./InputWithSaveButton";
