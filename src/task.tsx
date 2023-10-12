@@ -2,7 +2,8 @@ import React, {ChangeEvent, useCallback} from "react";
 import {Checkbox, IconButton} from "@mui/material";
 import {EditableSpan} from "./EditableSpan";
 import {Delete} from "@mui/icons-material";
-import {TaskType} from "./todoList";
+import {TaskType} from "./api/todolists-api";
+
 
 type TaskPropsType = {
     changeTaskStatus: (todolistId: string, taskId: string, isDone: boolean) => void;

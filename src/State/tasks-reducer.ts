@@ -2,8 +2,11 @@ import {TasksStateType, TodolistsType} from "../todoList";
 import {v1} from "uuid";
 import {FilterValuesType} from "../App";
 import {addTodolistAcType, removeTodolistAcType, todolistID1, todolistID2} from "./todolists-reducer"
+import {TaskType} from "../api/todolists-api";
 
-
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
+}
 type ActionType = removeTaskActionType | addTaskActionType| changeTaskStatusActionType | changeTaskTitleActionType |
 addTodolistAcType | removeTodolistAcType
 
