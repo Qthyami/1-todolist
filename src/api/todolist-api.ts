@@ -1,10 +1,7 @@
 import axios, {AxiosResponse} from 'axios'
 
 
-const settings = {
-    withCredentials: true,
 
-}
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
@@ -56,12 +53,14 @@ export const todolistAPI = {
 //     fieldsErrors:string[],
 //     resultCode:number
 // }
-type TodolistType={
+export type TodolistType={
     id: string,
     title: string,
     addedDate: Date,
     order: number
 }
+
+
 // type CreateTodolistResponseType={
 //     data:{
 //         item:TodolistType
