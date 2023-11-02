@@ -1,4 +1,8 @@
-import {AddTodolistActionType, RemoveTodolistActionType, SetTodolistsActionType} from './todolists-reducer'
+import {
+    AddTodolistActionType,
+    RemoveTodolistActionType,
+    SetTodolistsActionType
+} from './todolists-reducer'
 import {TaskPriorities, TaskStatuses, TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api'
 import {Dispatch} from 'redux'
 import {AppRootStateType} from '../../app/store'
@@ -64,10 +68,20 @@ export const removeTaskTC = (taskId: string, todolistId: string) => (dispatch: D
     dispatch(setAppStatusAC("loading"))
     todolistsAPI.deleteTask(todolistId, taskId)
         .then(res => {
-            const action = removeTaskAC(taskId, todolistId)
-            dispatch(action)
-            dispatch(setAppStatusAC("succeeded"))
+            if(res.data.resultCode === 0){
+                const action = removeTaskAC(taskId, todolistId)
+                dispatch(action)
+                dispatch(setAppStatusAC("succeeded"))
+            }  else{
+                handleServerAppError(dispatch, res.data)
+            }
+
         })
+
+        .catch((e)=>{
+        handleServerNetworkError(e as {message:string}, dispatch )
+    })
+
 }
 export const addTaskTC = (title: string, todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
     dispatch(setAppStatusAC('loading'))
